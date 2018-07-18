@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\TenantScope;
 
 class Todo extends Model
 {
@@ -16,6 +17,18 @@ class Todo extends Model
         'tenant_id', 'todo', 'completed'
     ];
 
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new TenantScope);
+    }
 
     /**
      * A todo belongs to a tenant.
